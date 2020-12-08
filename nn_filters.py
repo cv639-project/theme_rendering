@@ -203,9 +203,9 @@ if __name__ == "__main__":
     # model config
     parser.add_argument("--epochs", type=int, default=2,
                         help="number of training epochs")
-    parser.add_argument("--batch-size", type=int, default=2,
+    parser.add_argument("--batch-size", type=int, default=5,
                         help="batch size for training")
-    parser.add_argument("--gpu", type=int, default=3,
+    parser.add_argument("--gpu", type=int, default=0,
                         help="GPU id. -1 for CPU")
     parser.add_argument("--lr", type=float, default=3e-4,
                         help="learning rate")
