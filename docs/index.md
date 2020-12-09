@@ -1,5 +1,7 @@
 <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
 
+**Richard Li, Zhaoyi Zhang, Yizhou Liu**
+
 # Motivation
 
 Our project is largely based on NST (neural style transfer). NST builds on the idea that it is possible to separate the style representation and content representations in a CNN trained for a computer vision task. NST employs a pre-trained convolutional neural network (CNN) to transfer styles from a given image to another. In detail, it is an optimization technique used to take three images, a content image, a style image (such as an artwork by a famous painter) — and blend them together such that the input image is transformed to look like the content image, but “painted” in the style of the style image. In the picture below, you can see, for example, the Lamborghini painted in the style of The Starry Night by Van Gogh, the mountain painted in the style of the paint The Scream by Edvard Munch.
@@ -14,12 +16,7 @@ To summarize, our project goal is:
 
 # Approach
 
-Instance segmentation + Theme rendering
-
-## Instance segmentation
-
-
-## Theme rendering
+To stylize different objects in the image separately, we used a pre-trained R-CNN to generate a mask for each object, and only apply the chosen style on the masked image.
 
 Our theme rendering approach is partially based on *A Learned Representation For Artistic Style* by Dumoulin et al (2017).
 
@@ -60,7 +57,7 @@ Open questions remained in paper:
 
 ![our_impl](img/our_impl.png)
 
-Content loss style loss computed in different ways:
+**Content loss style loss computed in different ways:**
 
 $$L_{s_1}$$: Style transfer (with textures and noise transferred)
 
@@ -70,7 +67,7 @@ $$L_{c_1}$$: Loss computed with lower abstraction of content images in training 
 
 $$L_{c_2}$$: Loss computed with higher abstraction of content images in training compared to $$L_{c_1}$$, and with less features in original instances preserved.
 
-Conditional Instance Normalization
+**Conditional Instance Normalization:**
 
 Original Conditional Instance Normalization
 
@@ -80,7 +77,7 @@ $$
 
 Our Conditional instance normalization with random cell expansion
 
-![](img/our_cin.png)
+![our_cin](img/our_cin.png)
 
 Advantages: 
 
@@ -97,23 +94,22 @@ Advantages:
   $$
 
   - As above, for each ROI with coordinate $$(x, y)$$, a filter $$i$$ is applied $$(i <- (x, y))$$ to compute patch-wise loss respectively and add them together.
-  
 
 Disadvantage
 
 - Unstable results (ROI for each training image is different). Slow to train.
 
-## Inference time instance segmentation
+**Inference time instance segmentation:**
 
 To save training time, we use a pre-trained Mask-RCNN model from torchvision to get the masks for ROI (main objects in an image) at the inference time.
 
-## Filtering level
+**Filtering level:**
 
 For tuning weighing parameters $$L_s$$ and $$L_c$$, we fix $$L_c=L_{c_0}$$, initialize $$L_s=L_{s_0}$$, and introduce a degree parameter $$\varepsilon$$ to tweak $$L_s=L_s\times10^\varepsilon$$.
 
 # Results
 
-## Filters
+Here are a list of filters we used.
 
 ![hoofer](img/filters/filter1.jpg)
 
@@ -125,11 +121,13 @@ For tuning weighing parameters $$L_s$$ and $$L_c$$, we fix $$L_c=L_{c_0}$$, init
 
 ![hoofer](img/filters/filter8.jpg)
 
-## Original Image
+Original Image
+
+We used an image of ourselves to test our implementation.
 
 ![hoofer](img/hoofer/hoofer.jpg)
 
-## Filtered Images
+Filtered Images
 
 ![hoofer](img/hoofer/filtered_hoofer.jpg)
 
@@ -143,4 +141,4 @@ $$
 \mathcal{L}_c(p)=\sum_{j\in C}\sum_{x,y\in S}\lambda_{x,y}\frac{1}{U_j}\lvert\lvert \phi_j(p_{x,y})-\phi_j(c_{x,y})\rvert\rvert^2_2
 $$
 
-Use area-specific $\lambda$ for ROI to preserve more original details (like facial details) while doing theme rendering.
+Use area-specific $$\lambda$$ for ROI to preserve more original details (like facial details) while doing theme rendering.
