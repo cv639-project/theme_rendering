@@ -8,6 +8,7 @@ Download [coco2017 dataset](http://images.cocodataset.org/zips/train2017.zip) an
 - Filtered images will be saved to an automatically created output directory
 - **python nn_filters.py --load-model=None** to train from scratch.
 - **python nn_filters.py --load-model="path to saved model"** to load a pretrained model.
-- Pastiche is the model we implemented for theme rendering.
+- Pastiche is the model for theme rendering.
+- Feature_extractor is the neural network to extract features.
 - Please refer to our argparse flags for more optional arguments and details.
 
