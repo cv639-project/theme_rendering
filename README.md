@@ -10,5 +10,6 @@ Download [coco2017 dataset](http://images.cocodataset.org/zips/train2017.zip) an
 - **python nn_filters.py --load-model="path to saved model"** to load a pretrained model.
 - Pastiche is the model for theme rendering.
 - Feature_extractor is the neural network to extract features.
+- Functions for instance segmentation and multi-filtering are included in utils.
 - Please refer to our argparse flags for more optional arguments and details.
 
