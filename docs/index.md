@@ -19,7 +19,6 @@ Instance segmentation + Theme rendering
 ## Instance segmentation
 
 
-
 ## Theme rendering
 
 Our theme rendering approach is partially based on *A Learned Representation For Artistic Style* by Dumoulin et al (2017).
@@ -27,10 +26,15 @@ Our theme rendering approach is partially based on *A Learned Representation For
 ![theory_demo](img/theory_demo.png)
 
 Objective: For a given image, generate images with different styles.
+
 Components: Pastiche model, pre-trained VGG16
+
 Pastiche model: The model to be trained on coco dataset and style images for style transfer.
+
 Pre-trained VGG16 neural network: Pre-trained on ImageNet. Used here for feature extraction.
+
 Loss functions:
+
 $$
 \mathcal{L}_S(p)=\sum_{i\in S}\frac{1}{U_i}\lvert\lvert G(\phi_i(p))-G(\phi_i(s))\rvert\rvert^2_F
 $$
@@ -48,7 +52,7 @@ Open questions remained in paper:
 2. Model selection for feature extraction
 3. Layer selection for content and style loss computation
 4. How to perform conditional instance normalization
-5. Balancing weights $\lambda_s$ and $\lambda_c$
+5. Balancing weights $$\lambda_s$$ and $$\lambda_c$$
 
 # Implementation
 
@@ -58,20 +62,22 @@ Open questions remained in paper:
 
 Content loss style loss computed in different ways:
 
-$L_{s_1}$: Style transfer (with textures and noise transferred)
+$$L_{s_1}$$: Style transfer (with textures and noise transferred)
 
-$L_{s_2}$: Theme rendering (with less textures and more high-level layout and color patterns)
+$$L_{s_2}$$: Theme rendering (with less textures and more high-level layout and color patterns)
 
-$L_{c_1}$: Loss computed with lower abstraction of content images in training compared to $L_{c_2}$, and with most of features in original instances preserved.
+$$L_{c_1}$$: Loss computed with lower abstraction of content images in training compared to $$L_{c_2}$$, and with most of features in original instances preserved.
 
-$L_{c_2}$: Loss computed with higher abstraction of content images in training compared to $L_{c_1}$, and with less features in original instances preserved.
+$$L_{c_2}$$: Loss computed with higher abstraction of content images in training compared to $$L_{c_1}$$, and with less features in original instances preserved.
 
 Conditional Instance Normalization
 
 Original Conditional Instance Normalization
+
 $$
 z=\gamma_s\left(\frac{x-\mu}{\sigma}\right)+\beta_s
 $$
+
 Our Conditional instance normalization with random cell expansion
 
 ![](img/our_cin.png)
@@ -90,7 +96,7 @@ Advantages:
   \mathcal{L}_S(p)=\sum_{i\in S}\sum_{x,y\in X,Y}\frac{1}{U_i}\lvert\lvert G(\phi_i(p_{x,y}))-G(\phi_i(s_{x,y}))\rvert\rvert^2_F
   $$
 
-  - As above, for each ROI with coordinate (x, y), a filter i is applied (i <- (x, y)) to compute patch-wise loss respectively and add them together.
+  - As above, for each ROI with coordinate $$(x, y)$$, a filter $$i$$ is applied $$(i <- (x, y))$$ to compute patch-wise loss respectively and add them together.
   
 
 Disadvantage
@@ -103,7 +109,7 @@ To save training time, we use a pre-trained Mask-RCNN model from torchvision to 
 
 ## Filtering level
 
-For tuning weighing parameters $L_s$ and $L_c$, we fix $L_c=L_{c_0}$, initialize $L_s=L_{s_0}$, and introduce a degree parameter $\varepsilon$ to tweak $L_s=L_s\times10^\varepsilon$.
+For tuning weighing parameters $$L_s$$ and $$L_c$$, we fix $$L_c=L_{c_0}$$, initialize $$L_s=L_{s_0}$$, and introduce a degree parameter $$\varepsilon$$ to tweak $$L_s=L_s\times10^\varepsilon$$.
 
 # Results
 
