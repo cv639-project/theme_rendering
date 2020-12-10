@@ -14,7 +14,7 @@ To summarize, our project goal is:
 
 > For a given input image with k instances, we want to generate an output image where k instances are applied with different theme filters individually selected by the user.
 
-# Theory base
+# Theory Base
 
 Our theme rendering approach is partially based on *A Learned Representation For Artistic Style* by Dumoulin et al (2017).
 
@@ -103,7 +103,7 @@ To save training time, we use a pre-trained Mask-RCNN model from torchvision to 
 
 For tuning weighing parameters $$L_s$$ and $$L_c$$, we fix $$L_c=L_{c_0}$$, initialize $$L_s=L_{s_0}$$, and introduce a degree parameter $$\varepsilon$$ to tweak $$L_s=L_s\times10^\varepsilon$$. In fact, the parameters for filtering are difficult to tune, and sensitive to the change of architecture and hyperparameters. We found that $$\varepsilon$$ between 2.2 to 3.0 is a good range.
 
-# Results demo
+# Results Demo
 
 ![collage](img/collage.png)
 
