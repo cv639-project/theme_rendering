@@ -51,7 +51,7 @@ $$
 $$
 
 
-**A snapshot of feature extraction blocks for loss computation
+**A snapshot of feature extraction blocks for loss computation**
 
 ![our_impl](img/our_impl.png)
 
@@ -83,7 +83,7 @@ Advantages:
 
 - Multi-object theme rendering with different filters
 
-**Training time random theme blending (our first idea)
+**Training time random theme blending (our first idea)**
 
 - $$
   \mathcal{L}_S(p)=\sum_{i\in S}\sum_{x,y\in X,Y}\frac{1}{U_i}\lvert\lvert G(\phi_i(p_{x,y}))-G(\phi_i(s_{x,y}))\rvert\rvert^2_F
@@ -137,4 +137,4 @@ $$
 \mathcal{L}_c(p)=\sum_{j\in C}\sum_{x,y\in S}\lambda_{x,y}\frac{1}{U_j}\lvert\lvert \phi_j(p_{x,y})-\phi_j(c_{x,y})\rvert\rvert^2_2
 $$
 
-Use area-specific $$\lambda$$ for ROI to preserve more original details (like facial details) while doing theme rendering.
+One open question is that to preserve even further small area-specific details while applying filters, we could explore using above scheme. $$\lambda$$ can be applied to ROIs in a pixel level while applying filters.
