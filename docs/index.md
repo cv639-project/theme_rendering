@@ -53,7 +53,7 @@ $$
 
 **A snapshot of feature extraction blocks for loss computation**
 
-![our_impl](img/loss computation.png)
+![our_impl](img/loss_computation.png)
 
 **Content loss style loss computed in different ways:**
 
