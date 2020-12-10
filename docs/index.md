@@ -117,8 +117,12 @@ One open question is that to preserve even further small area-specific details w
 
 # Links
 
-[Video Presentation](https://drive.google.com/file/d/1f4H_W_G-7WB6lFER-wLqrIqXp_lyiHRv/view?usp=sharing)
+2020-10: [Proposal](cs639-project-proposal.pdf)
 
-[Presentation Slides](https://docs.google.com/presentation/d/1Z2X8rwM2XGiNNIJTaSkc3-gECaqIzZyF/edit#slide=id.p13)
+2020-11: [Midterm Report](cs639-midterm-report.pdf)
 
-[code](https://github.com/cv639-project/theme_rendering)
+2020-12: [Video Presentation](https://drive.google.com/file/d/1f4H_W_G-7WB6lFER-wLqrIqXp_lyiHRv/view?usp=sharing)
+
+2020-12: [Presentation Slides](https://docs.google.com/presentation/d/1Z2X8rwM2XGiNNIJTaSkc3-gECaqIzZyF/edit#slide=id.p13)
+
+2020-12: [Code](https://github.com/cv639-project/theme_rendering)
