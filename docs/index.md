@@ -105,31 +105,7 @@ For tuning weighing parameters $$L_s$$ and $$L_c$$, we fix $$L_c=L_{c_0}$$, init
 
 # Results demo
 
-Here are a list of filters we used.
-
-![hoofer](img/filters/filter1.jpg)
-
-![hoofer](img/filters/filter2.jpg)
-
-![hoofer](img/filters/filter4.jpg)
-
-![hoofer](img/filters/filter5.jpg)
-
-![hoofer](img/filters/filter8.jpg)
-
-Original Image
-
-We used an image of ourselves to test our implementation.
-
-![hoofer](img/hoofer/hoofer.jpg)
-
-Filtered Images
-
-![hoofer](img/hoofer/filtered_hoofer.jpg)
-
-![hoofer](img/hoofer/filtered_hoofer (1).jpg)
-
-![hoofer](img/hoofer/filtered_hoofer (2).jpg)
+![collage](img/collage.png)
 
 # Discussion
 
