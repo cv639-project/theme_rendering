@@ -14,21 +14,27 @@ To summarize, our project goal is:
 
 > For a given input image with k instances, we want to generate an output image where k instances are applied with different theme filters individually selected by the user.
 
-# Approach
-
-To stylize different objects in the image separately, we used a pre-trained R-CNN to generate a mask for each object, and only apply the chosen style on the masked image.
+# Theory base
 
 Our theme rendering approach is partially based on *A Learned Representation For Artistic Style* by Dumoulin et al (2017).
 
-![theory_demo](img/theory_demo.png)
+We re-designed the following parts:
 
-Objective: For a given image, generate images with different styles.
+1. Pastiche model Architecture
+2. Model selection for feature extraction
+3. Layer selection for content and style loss computation
+4. conditional instance normalization scheme
+5. Balancing weights $$\lambda_s$$ and $$\lambda_c$$
 
-Components: Pastiche model, pre-trained VGG16
+# Approach
 
-Pastiche model: The model to be trained on coco dataset and style images for style transfer.
+To apply filters on different objects in an image separately, we used a pre-trained R-CNN to generate a mask for each instance, and apply the chosen themems on the masked image.
 
-Pre-trained VGG16 neural network: Pre-trained on ImageNet. Used here for feature extraction.
+Main models we build: Pastiche model, VGG11
+
+Pastiche model: The model we build for theme rendering. Trained on coco2017 dataset and nine theme images.
+
+VGG11: Pre-trained on ImageNet. We divide it into five blocks and use them for feature extraction to compute losses with the ones trained with Pastiche model.
 
 Loss functions:
 
@@ -44,16 +50,8 @@ $$
 \mathcal{L(s,c)}=\lambda_s\mathcal{L}_s(T(c))+\lambda_c\mathcal{L}_c(T(c))
 $$
 
-Open questions remained in paper:
-1. Pastiche model Architecture
-2. Model selection for feature extraction
-3. Layer selection for content and style loss computation
-4. How to perform conditional instance normalization
-5. Balancing weights $$\lambda_s$$ and $$\lambda_c$$
 
-# Implementation
-
-![theory_impl](img/theory_impl.png)
+**A snapshot of feature extraction blocks for loss computation
 
 ![our_impl](img/our_impl.png)
 
@@ -67,15 +65,13 @@ $$L_{c_1}$$: Loss computed with lower abstraction of content images in training 
 
 $$L_{c_2}$$: Loss computed with higher abstraction of content images in training compared to $$L_{c_1}$$, and with less features in original instances preserved.
 
-**Conditional Instance Normalization:**
+**Conditional Instance Normalization with cell expansion**
 
-Original Conditional Instance Normalization
+CIN formula:
 
 $$
 z=\gamma_s\left(\frac{x-\mu}{\sigma}\right)+\beta_s
 $$
-
-Our Conditional instance normalization with random cell expansion
 
 ![our_cin](img/our_cin.png)
 
@@ -83,11 +79,11 @@ Advantages:
 
 - Reduce training time in a large margin.
 
-- Input one image, and output multiple theme rendered images with different selected filters in on forward pass.
+- Input one image, and output multiple theme rendered images with different selected filters in one forward pass.
 
 - Multi-object theme rendering with different filters
 
-- Training time random theme blending
+**Training time random theme blending (our first idea)
 
 - $$
   \mathcal{L}_S(p)=\sum_{i\in S}\sum_{x,y\in X,Y}\frac{1}{U_i}\lvert\lvert G(\phi_i(p_{x,y}))-G(\phi_i(s_{x,y}))\rvert\rvert^2_F
@@ -95,19 +91,19 @@ Advantages:
 
   - As above, for each ROI with coordinate $$(x, y)$$, a filter $$i$$ is applied $$(i <- (x, y))$$ to compute patch-wise loss respectively and add them together.
 
-Disadvantage
+Challenge:
 
 - Unstable results (ROI for each training image is different). Slow to train.
 
 **Inference time instance segmentation:**
 
-To save training time, we use a pre-trained Mask-RCNN model from torchvision to get the masks for ROI (main objects in an image) at the inference time.
+To save training time, we use a pre-trained Mask-RCNN model from torchvision to compute the masks for ROI (main instances in an image) at the inference time.
 
 **Filtering level:**
 
-For tuning weighing parameters $$L_s$$ and $$L_c$$, we fix $$L_c=L_{c_0}$$, initialize $$L_s=L_{s_0}$$, and introduce a degree parameter $$\varepsilon$$ to tweak $$L_s=L_s\times10^\varepsilon$$.
+For tuning weighing parameters $$L_s$$ and $$L_c$$, we fix $$L_c=L_{c_0}$$, initialize $$L_s=L_{s_0}$$, and introduce a degree parameter $$\varepsilon$$ to tweak $$L_s=L_s\times10^\varepsilon$$. In fact, the parameters for filtering are difficult to tune, and sensitive to the change of architecture and hyperparameters. We found that $$\varepsilon$$ between 2.2 to 3.0 is a good range.
 
-# Results
+# Results demo
 
 Here are a list of filters we used.
 
