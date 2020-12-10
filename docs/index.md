@@ -2,6 +2,14 @@
 
 **Richard Li, Zhaoyi Zhang, Yizhou Liu**
 
+# Progress
+
+2020-10: [Proposal](cs639-project-proposal.pdf)
+
+2020-11: [Midterm Report](cs639-midterm-report.pdf)
+
+2020-12: [Video Presentation](https://drive.google.com/file/d/1f4H_W_G-7WB6lFER-wLqrIqXp_lyiHRv/view?usp=sharing)
+
 # Motivation
 
 Our project is largely based on NST (neural style transfer). NST builds on the idea that it is possible to separate the style representation and content representations in a CNN trained for a computer vision task. NST employs a pre-trained convolutional neural network (CNN) to transfer styles from a given image to another. In detail, it is an optimization technique used to take three images, a content image, a style image (such as an artwork by a famous painter) — and blend them together such that the input image is transformed to look like the content image, but “painted” in the style of the style image. In the picture below, you can see, for example, the Lamborghini painted in the style of The Starry Night by Van Gogh, the mountain painted in the style of the paint The Scream by Edvard Munch.
