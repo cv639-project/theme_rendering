@@ -216,7 +216,7 @@ if __name__ == "__main__":
     parser.add_argument("--content-image", type=str, default="hoofer.jpg",
                         help="name of content image you want to apply_themes")
     parser.add_argument("--load-model", type=str,
-                        default="saved_models/Sat_Dec__5_12:41:33_2020_filter_level_2.6_epoch2.pth",
+                        default=None,
                         help="saved model to be used for stylizing the image if applicable")
     parser.add_argument("--filtering-level", type=float, default=2.6,
                         help="A positive integer for degree of filtering.0 for no filter.")
